@@ -20,14 +20,20 @@ public class BookingController {
         this.userService = userService;
     }
 
-    @PostMapping("/bookings")
+    @PostMapping("/booking")
     public Booking createBooking(@RequestParam Long userId, @RequestParam Long tourId) {
         User user = userService.getUserById(userId);
         return bookingService.createBooking(user, tourId);
     }
 
-    @GetMapping("/booking")
+    @GetMapping("/bookings")
     public List<Booking> getUserBookings(@RequestParam Long userId) {
         return bookingService.getBookingsByUser(userId);
     }
+
+    @DeleteMapping("/booking/{bookingId}")
+    public void cancelBooking(@PathVariable Long bookingId) {
+        bookingService.cancelBooking(bookingId);
+    }
 }
+

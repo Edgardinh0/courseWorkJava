@@ -11,8 +11,7 @@ public class User {
     private String username;
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    private String role;
 
     public void setId(long id) {
         this.id = id;
@@ -31,18 +30,18 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.username = username;
+        this.password = password;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 }

@@ -14,6 +14,7 @@ public class Booking {
     @ManyToOne
     private Tour tour;
     private String bookingDate;
+    private String status = "PENDING";
 
     public void setId(long id) {
         this.id = id;
@@ -45,5 +46,13 @@ public class Booking {
 
     public String getBookingDate() {
         return bookingDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

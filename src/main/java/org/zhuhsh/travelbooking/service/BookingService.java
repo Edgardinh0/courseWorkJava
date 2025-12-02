@@ -26,10 +26,19 @@ public class BookingService {
         booking.setUser(user);
         booking.setTour(tour);
         booking.setBookingDate(LocalDate.now().toString());
+        booking.setStatus("PENDING");
         return bookingRepository.save(booking);
     }
+
 
     public List<Booking> getBookingsByUser(Long userId) {
         return bookingRepository.findByUserId(userId);
     }
+
+    public void cancelBooking(Long bookingId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+        bookingRepository.delete(booking);
+    }
 }
+

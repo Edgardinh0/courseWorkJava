@@ -1,9 +1,10 @@
 package org.zhuhsh.travelbooking.controller;
 
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import org.zhuhsh.travelbooking.model.Tour;
 import org.zhuhsh.travelbooking.service.TourService;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class TourController {
     }
 
     @PostMapping("/agent/tours")
+    @PreAuthorize("hasAnyRole('ADMIN','AGENT')")
     public Tour addTour(@RequestBody Tour tour) {
         return tourService.addTour(tour);
     }
@@ -32,5 +34,12 @@ public class TourController {
                                   @RequestParam(required = false) Double minPrice,
                                   @RequestParam(required = false) Double maxPrice) {
         return tourService.filterTours(startDate, endDate, minPrice, maxPrice);
+    }
+
+    @DeleteMapping("/tours/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','AGENT')")
+    public ResponseEntity<String> deleteTour(@PathVariable Long id) {
+        tourService.deleteTour(id);
+        return ResponseEntity.ok("Tour deleted successfully");
     }
 }
