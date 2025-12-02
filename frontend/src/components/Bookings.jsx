@@ -34,7 +34,7 @@ export default function Bookings() {
             <ul>
                 {bookings.map(b => (
                     <li key={b.id}>
-                        {b.tour?.name || "Тур удалён"} - {b.bookingDate}
+                        {b.tour?.name || "Тур удалён"} - {b.bookingDate} - {"Cтатус: "} {b.status}
                         <button 
                             style={{ marginLeft: "10px" }} 
                             onClick={() => handleCancel(b.id)}

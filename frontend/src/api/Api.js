@@ -161,10 +161,11 @@ export async function getAllBookingsForAgent() {
 }
 
 export async function updateBookingStatus(bookingId, status) {
-    const res = await fetch(`${API_BASE}/agent/booking/${bookingId}?status=${status}`, {
+    const res = await fetch(`${API_BASE}/agent/bookings/${bookingId}/status?status=${status}`, {
         method: "PUT",
         headers: authHeader()
     });
     if (!res.ok) throw new Error("Failed to update status");
     return res.json();
 }
+

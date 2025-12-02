@@ -21,7 +21,5 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findBookingsByAgent(Long agentId);
 
     @Query("SELECT COUNT(b) > 0 FROM Booking b WHERE b.id = :bookingId AND b.tour.agent.id = :agentId")
-    boolean bookingBelongsToAgent(@Param("bookingId") Long bookingId, @Param("agentId") Long agentId);
-
-
+    boolean bookingBelongsToAgent(Long bookingId, Long agentId);
 }
