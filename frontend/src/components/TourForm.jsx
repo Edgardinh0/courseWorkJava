@@ -13,19 +13,38 @@ export default function TourForm({onAdded}) {
 
     async function submit(e) {
         e.preventDefault();
-        try {
-            const payload = {
-                ...tour,
-                price: Number(tour.price)
-            }
+        setErr(null);
 
-            await addTour(payload)
+        const start = new Date(tour.startDate);
+        const end = new Date(tour.endDate);
+        const today = new Date();
+        today.setHours(0,0,0,0);
+
+        if (start < today) {
+            setErr("Дата начала не может быть в прошлом");
+            return;
+        }
+
+        if (end < start) {
+            setErr("Дата окончания должна быть позже даты начала");
+            return;
+        }
+
+        if (Number(tour.price) <= 0) {
+            setErr("Цена не может быть меньше или равна 0")
+            return;
+        }
+
+        try {
+            const payload = { ...tour, price: Number(tour.price) };
+            await addTour(payload);
             setTour({name:'', destination:'', startDate:'', endDate:'', price:''});
             onAdded();
         } catch (e) {
             setErr(e.message);
         }
     }
+
 
     return (
         <div className="card">
