@@ -2,27 +2,30 @@ import { useState } from "react";
 import { recommend } from "../api/Api";
 
 export default function Recommend() {
-    const [pref, setPref] = useState('')
-    const [res, setRes] = useState(null)
+const [prefs, setPrefs] = useState("");
+const [result, setResult] = useState("");
 
-    async function onAsk(e) {
-        e.preventDefault()
+
+    async function handleRecommend() {
         try {
-            const r = await recommend(pref)
-            setRes(r)
-        } catch (err) {
-            setRes('Ошибка: ' + err.message)
+            const res = await recommend(prefs);
+            setResult(res);
+        } catch (e) {
+            alert("Ошибка: " + e.message);
         }
     }
 
     return (
-        <div className="card">
-            <h3>Рекомендации (ИИ)</h3>
-            <form onSubmit={onAsk}>
-                <input value={pref} onChange={e=>setPref(e.target.value)} placeholder="пожелания (пляж, история, бюджет...)" />
-                <button type="submit">Запросить</button>
-            </form>
-            {res && <div className="result">{res}</div>}
+        <div className="recommend">
+            <h3>ИИ рекомендации туров</h3>
+            <input
+                type="text"
+                placeholder="Ваши предпочтения"
+                value={prefs}
+                onChange={e => setPrefs(e.target.value)}
+            />
+            <button onClick={handleRecommend}>Получить рекомендации</button>
+            {result && <div className="result">{result}</div>}
         </div>
-    )
+    );
 }

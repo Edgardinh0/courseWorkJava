@@ -37,16 +37,18 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/tours/**").permitAll()
 
-                        // ⭐ Разрешаем просмотр отзывов всем
+                        // Разрешаем просмотр отзывов всем
                         .requestMatchers(HttpMethod.GET, "/api/reviews/tour/**").permitAll()
 
-                        // ⭐ Но создание/удаление отзывов — только авторизованным
+                        // Но создание/удаление отзывов — только авторизованным
                         .requestMatchers("/api/reviews/**").authenticated()
 
                         .requestMatchers("/api/traveler/**").hasRole("TRAVELER")
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/agent/**").hasRole("AGENT")
 
+
+                        .requestMatchers("/api/ai/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(userDetailsService)
