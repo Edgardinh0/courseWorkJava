@@ -30,7 +30,7 @@ public class AIService {
 
     // Персональные рекомендации туров
     public String recommendTours(String preferences) throws Exception {
-        return sendMessage("Предложи персональные туристические маршруты для пользователя с такими предпочтениями: " + preferences, 300);
+        return sendMessage("Предложи персональные туристические маршруты для пользователя с такими предпочтениями (выведи информацию очень кратко): " + preferences, 300);
     }
 
     // Прогноз популярности направления

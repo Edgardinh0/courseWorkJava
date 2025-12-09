@@ -210,13 +210,10 @@ export default function Tours({ role, currentUser }) {
                         <h4>Отзывы:</h4>
                         <ul>
                         {reviews[t.id]?.length > 0 ? reviews[t.id].map(r => (
-                            <li key={r.id}>
-                                ⭐ {r.rating} — {r.comment}
+                            <li key={r.id} className="review">
+                                <span>⭐ {r.rating} — {r.comment}</span>
                                 {(role === "ADMIN" || (role === "TRAVELER" && r.user?.id === parseInt(localStorage.getItem("userId")))) && (
-                                    <button
-                                        style={{ marginLeft: "10px", color: "red" }}
-                                        onClick={() => handleDeleteReview(r.id, t.id)}
-                                    >
+                                    <button onClick={() => handleDeleteReview(r.id, t.id)}>
                                         Удалить
                                     </button>
                                 )}

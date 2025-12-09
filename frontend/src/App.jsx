@@ -8,6 +8,7 @@ import TourForm from './components/TourForm'
 import AdminUsers from './components/AdminUsers'
 import Recommend from './components/Recommend'
 import AgentBookings from './components/AgentBookings'
+import PredictPopularity from './components/PredictPopularity'
 import { logout } from './api/Api'
 import './App.css'
 
@@ -57,7 +58,8 @@ function App() {
         {view === 'bookings' && <Bookings />}
         {view === 'admin' && role === 'ADMIN' && <AdminUsers />}
         {view === 'agentBookings' && role === 'AGENT' && <AgentBookings />}
-        <Recommend />
+        {role === 'TRAVELER' && <Recommend />}
+        {role === 'AGENT' && <PredictPopularity />}
       </div>
     </>
   )

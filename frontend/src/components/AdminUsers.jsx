@@ -38,7 +38,7 @@ export default function AdminUsers () {
                             <td>{u.id}</td>
                             <td>{u.username}</td>
                             <td>{u.role}</td>
-                            <td><button onClick={()=>onDelete(u.id)}>Удалить</button></td>
+                            <td><button className="delete_user" onClick={()=>onDelete(u.id)}>Удалить</button></td>
                         </tr>
                     ))}
                 </tbody>

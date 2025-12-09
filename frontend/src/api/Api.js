@@ -125,6 +125,16 @@ export async function recommend(preferences) {
     return res.text()
 }
 
+export async function predictPopularity(destination) {
+    const res = await fetch(
+        `${API_BASE}/ai/predict?destination=${encodeURIComponent(destination)}`,
+        { headers: authHeader() }
+    );
+    if (!res.ok) throw new Error("AI popularity failed");
+    return res.text();
+}
+
+
 export async function getReviews(tourId) {
     const res = await fetch(`${API_BASE}/reviews/tour/${tourId}`, {
         headers: authHeader()

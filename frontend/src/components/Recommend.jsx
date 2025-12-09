@@ -24,7 +24,7 @@ const [result, setResult] = useState("");
                 value={prefs}
                 onChange={e => setPrefs(e.target.value)}
             />
-            <button onClick={handleRecommend}>Получить рекомендации</button>
+            <button className='recommend_button' onClick={handleRecommend}>Получить рекомендации</button>
             {result && <div className="result">{result}</div>}
         </div>
     );
