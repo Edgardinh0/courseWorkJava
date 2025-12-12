@@ -53,13 +53,13 @@ function App() {
       <div className='container'>
         {view === 'login' && <Login onLogin={onLogin}/>}
         {view === 'register' && <Register onRegistered={() => setView('login')} />}
+        {role === 'TRAVELER' && <Recommend />}
+        {role === 'AGENT' && <PredictPopularity />}
         {view === 'tours' && <Tours role={role} currentUser={user} />}
         {view === 'manage' && role === 'AGENT' && <TourForm onAdded={() => setView('tours')} />}
         {view === 'bookings' && <Bookings />}
         {view === 'admin' && role === 'ADMIN' && <AdminUsers />}
         {view === 'agentBookings' && role === 'AGENT' && <AgentBookings />}
-        {role === 'TRAVELER' && <Recommend />}
-        {role === 'AGENT' && <PredictPopularity />}
       </div>
     </>
   )

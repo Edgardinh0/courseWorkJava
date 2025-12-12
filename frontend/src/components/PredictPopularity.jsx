@@ -4,13 +4,19 @@ import { predictPopularity } from "../api/Api";
 export default function PredictPopularity() {
     const [dest, setDest] = useState("");
     const [result, setResult] = useState("");
+    const [loading, setLoading] = useState(false);
 
     async function handlePredict() {
+        setLoading(true);
+        setResult('');
+        
         try {
             const res = await predictPopularity(dest);
             setResult(res);
         } catch (e) {
             alert("Ошибка: " + e.message);
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -25,7 +31,7 @@ export default function PredictPopularity() {
                 onChange={e => setDest(e.target.value)}
             />
 
-            <button onClick={handlePredict} className="predict_button">Предсказать</button>
+            <button onClick={handlePredict} className="predict_button" disabled={loading}>{loading ? 'Загрузка...' : 'Предсказать'}</button>
 
             {result && <div className="result">{result}</div>}
         </div>

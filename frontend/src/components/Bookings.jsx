@@ -36,7 +36,7 @@ export default function Bookings() {
                     <li key={b.id}>
                         {b.tour?.name || "Тур удалён"} - {b.bookingDate} - {"Cтатус: "} {b.status}
                         <button 
-                            style={{ marginLeft: "10px" }} 
+                            style={{ marginLeft: "10px", backgroundColor: "red" }} 
                             onClick={() => handleCancel(b.id)}
                         >
                             Отменить

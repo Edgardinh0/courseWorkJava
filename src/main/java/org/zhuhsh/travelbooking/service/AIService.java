@@ -35,7 +35,7 @@ public class AIService {
 
     // Прогноз популярности направления
     public String predictDestinationPopularity(String destination) throws Exception {
-        return sendMessage("Предскажи популярность направления " + destination + " среди туристов в этом сезоне и дай краткий совет", 150);
+        return sendMessage("Предскажи популярность направления " + destination + " среди туристов в этом сезоне и дай краткий совет (информацию выведи кратко)", 300);
     }
 
     // Универсальный метод отправки запроса на DeepSeek через OpenRouter
