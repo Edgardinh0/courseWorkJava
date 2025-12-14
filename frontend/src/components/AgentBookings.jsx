@@ -40,19 +40,19 @@ export default function AgentBookings() {
 
             {bookings.map(b => (
                 <div key={b.id} className="card">
-                    <p><b>Тур:</b> {b.tour?.title}</p>
+                    <p><b>Тур:</b> {b.tour?.name}</p>
                     <p><b>Пользователь:</b> {b.user?.username}</p>
                     <p><b>Статус:</b> {b.status}</p>
 
-                    <button onClick={() => changeStatus(b.id, "APPROVED")}>
+                    <button className="booking_button" onClick={() => changeStatus(b.id, "APPROVED")}>
                         Одобрить
                     </button>
 
-                    <button onClick={() => changeStatus(b.id, "REJECTED")}>
+                    <button className="booking_button" onClick={() => changeStatus(b.id, "REJECTED")}>
                         Отклонить
                     </button>
 
-                    <button onClick={() => changeStatus(b.id, "COMPLETED")}>
+                    <button className="booking_button" onClick={() => changeStatus(b.id, "COMPLETED")}>
                         Завершить
                     </button>
                 </div>

@@ -6,9 +6,16 @@ export default function Register({onRegistered}) {
     const [password, setPassword] = useState('')
     const [role, setRole] = useState('TRAVELER')
     const [err, setErr] = useState(null)
+    const usernameRegex = /^[a-zA-Z0-9._]{3,30}$/;
+
 
     async function submit(e) {
         e.preventDefault()
+        if (!usernameRegex.test(username)) {
+            setErr("Логин может содержать только латинские буквы, цифры, точку и _ (3–30 символов)");
+            return;
+        }
+        
         try {
             await register(username, password, role)
             onRegistered()

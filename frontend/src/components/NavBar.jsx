@@ -2,7 +2,7 @@ import Logo from '/public/logo.png'
 
 export default function NavBar({ onLogout, user, role, setView}) {
     return (
-        <nav className="nav">
+        <nav>
             <div style={{display: "flex", alignItems: "center", gap:12}}>
                 <img src={Logo} alt="logo" style={{height:36}}></img>
                 <div className='brand'>Travel Booking</div>

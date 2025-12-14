@@ -162,11 +162,13 @@ export default function Tours({ role, currentUser }) {
             <form onSubmit={onFilter} className="filter">
                 <input 
                     type="date"
+                    placeholder="Дата начала"
                     value={filters.startDate}
                     onChange={e => setFilters({ ...filters, startDate: e.target.value })}
                 />
                 <input 
                     type="date"
+                    placeholder="Дата окончания"
                     value={filters.endDate}
                     onChange={e => setFilters({ ...filters, endDate: e.target.value })}
                 />

@@ -1,5 +1,6 @@
 package org.zhuhsh.travelbooking.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.zhuhsh.travelbooking.model.Role;
@@ -13,12 +14,24 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Value("${security.agent.secret}")
+    private String agentSecret;
+
+    @Value("${security.admin.secret}")
+    private String adminSecret;
+
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     public User createUser(String username, String password, Role role) {
+        if (!username.matches("^[a-zA-Z0-9._]{3,30}$")) {
+            throw new IllegalArgumentException(
+                    "Username может содержать только латинские буквы, цифры, точку и подчёркивание (3–30 символов)"
+            );
+        }
+
         if (userRepository.findByUsername(username).isPresent()) {
             throw new RuntimeException("User already exists");
         }
@@ -31,9 +44,6 @@ public class UserService {
 
         return userRepository.save(user);
     }
-
-
-
 
     public User login(String username, String password) {
         User user = userRepository.findByUsername(username)

@@ -6,14 +6,16 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.zhuhsh.travelbooking.repository.UserRepository;
+
 import java.util.List;
 
 @Service
 public class AppUserDetailsService implements UserDetailsService {
 
-    private final org.zhuhsh.travelbooking.repository.UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    public AppUserDetailsService(org.zhuhsh.travelbooking.repository.UserRepository userRepository) {
+    public AppUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

@@ -22,7 +22,7 @@ button {
 }
 
 /* ====== Навбар ====== */
-.nav {
+nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -32,12 +32,12 @@ button {
     box-shadow: 0 2px 5px rgba(0,0,0,0.15);
 }
 
-.nav .brand {
+nav .brand {
     font-size: 20px;
     font-weight: bold;
 }
 
-.nav button {
+nav button {
     background: transparent;
     border: none;
     color: white;
@@ -49,9 +49,12 @@ button {
     transition: 0.2s;
 }
 
-.nav button:hover {
+nav button:hover {
     background: rgba(255,255,255,0.2);
 }
+
+
+
 
 /* ====== Карточки ====== */
 .card {
@@ -241,4 +244,8 @@ table.users tr:last-child td {
 
 .recommend_button {
     width: 173px;
+}
+
+.booking_button {
+    margin-left: 10px;
 }
