@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:8080/api'
+import { API_BASE } from "./Config";
 
 function authHeader() {
     const cred = localStorage.getItem('cred')
@@ -6,25 +6,34 @@ function authHeader() {
     return {Authorization: `Basic ${cred}`, 'Content-Type': 'application/json'}
 }
 
-export async function login(username, password) {
+export async function login(username, password, captcha) {
     const res = await fetch(`${API_BASE}/auth/login`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ username, password })
+        credentials: "include",
+        body: JSON.stringify({ username, password, captcha })
     });
 
-    if (!res.ok) throw new Error('Invalid credentials');
+    if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg);
+    }
+
     const user = await res.json();
 
     localStorage.setItem('cred', btoa(`${username}:${password}`));
     localStorage.setItem('username', user.username);
 
-    const roleShort = user.role && user.role.startsWith('ROLE_') ? user.role.substring(5) : user.role;
+    const roleShort = user.role?.startsWith('ROLE_')
+        ? user.role.substring(5)
+        : user.role;
+
     localStorage.setItem('role', roleShort);
     localStorage.setItem('userId', user.id);
 
     return { ...user, roleShort };
 }
+
 
 
 export function logout() {
@@ -34,17 +43,22 @@ export function logout() {
     localStorage.removeItem('userId')
 }
 
-export async function register(username, password, role) {
+export async function register(username, password, role, captcha) {
     const res = await fetch(`${API_BASE}/auth/register`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ username, password, role })
+        credentials: "include",
+        body: JSON.stringify({ username, password, role, captcha })
     });
 
-    if (!res.ok) throw new Error("Ошибка регистрации");
+    if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg);
+    }
 
     return await res.json();
 }
+
 
 export async function getAllTours() {
     const res = await fetch(`${API_BASE}/tours`, {headers: authHeader()})
@@ -177,5 +191,13 @@ export async function updateBookingStatus(bookingId, status) {
     });
     if (!res.ok) throw new Error("Failed to update status");
     return res.json();
+}
+
+export async function getCaptcha() {
+    const res = await fetch(`${API_BASE}/auth/captcha`, {
+        credentials: "include"
+    });
+    if (!res.ok) throw new Error("Не удалось получить капчу");
+    return res.text();
 }
 

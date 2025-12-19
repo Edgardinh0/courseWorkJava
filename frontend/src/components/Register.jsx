@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { register } from "../api/Api";
+import { useEffect, useState } from "react";
+import { register, getCaptcha } from "../api/Api";
 
 export default function Register({onRegistered}) {
     const [username, setUsername] = useState('')
@@ -7,22 +7,36 @@ export default function Register({onRegistered}) {
     const [role, setRole] = useState('TRAVELER')
     const [err, setErr] = useState(null)
     const usernameRegex = /^[a-zA-Z0-9._]{3,30}$/;
+    const [captchaImg, setCaptchaImg] = useState("");
+    const [captcha, setCaptcha] = useState("");
+
+    useEffect(() => {
+        loadCaptcha();
+    }, []);
+
+    async function loadCaptcha() {
+        const img = await getCaptcha();
+        setCaptchaImg(img);
+    }
 
 
     async function submit(e) {
-        e.preventDefault()
+        e.preventDefault();
+
         if (!usernameRegex.test(username)) {
             setErr("Логин может содержать только латинские буквы, цифры, точку и _ (3–30 символов)");
             return;
         }
-        
+
         try {
-            await register(username, password, role)
-            onRegistered()
-        } catch(e) {
-            setErr(e.message)
+            await register(username, password, role, captcha);
+            onRegistered();
+        } catch (e) {
+            setErr(e.message);
+            loadCaptcha();
         }
     }
+
 
     return (
         <div className="card">
@@ -35,6 +49,13 @@ export default function Register({onRegistered}) {
                     <option value="AGENT">Agent</option>
                     <option value="ADMIN">Admin</option>
                 </select>
+                <img src={captchaImg} alt="captcha"
+                    onClick={loadCaptcha}
+                    style={{ cursor: "pointer" }} />
+                <input placeholder="Введите код с картинки"
+                    value={captcha}
+                    onChange={e => setCaptcha(e.target.value)}
+                    required />
                 <button type="submit">Register</button>
             </form>
             {err && <div className="error">{err}</div>}

@@ -1,5 +1,6 @@
 package org.zhuhsh.travelbooking.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.zhuhsh.travelbooking.model.User;
@@ -19,9 +20,23 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Map<String, String> payload) {
+    public ResponseEntity<?> login(
+            @RequestBody Map<String, String> payload,
+            HttpSession session
+    ) {
         String username = payload.get("username");
         String password = payload.get("password");
+        String captcha = payload.get("captcha");
+
+        String expected = (String) session.getAttribute("CAPTCHA");
+
+        if (expected == null || captcha == null ||
+                !expected.equalsIgnoreCase(captcha)) {
+            return ResponseEntity.badRequest().body("Неверная капча");
+        }
+
+        session.removeAttribute("CAPTCHA");
+
         try {
             User user = userService.login(username, password);
             return ResponseEntity.ok(user);
@@ -30,21 +45,35 @@ public class AuthController {
         }
     }
 
+
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Map<String, String> payload) {
+    public ResponseEntity<?> register(
+            @RequestBody Map<String, String> payload,
+            HttpSession session
+    ) {
         String username = payload.get("username");
         String password = payload.get("password");
         String roleStr = payload.get("role");
+        String captcha = payload.get("captcha");
+
+        String expected = (String) session.getAttribute("CAPTCHA");
+
+        if (expected == null || captcha == null ||
+                !expected.equalsIgnoreCase(captcha)) {
+            return ResponseEntity.badRequest().body("Неверная капча");
+        }
+
+        session.removeAttribute("CAPTCHA");
 
         try {
             Role role = Role.valueOf(roleStr);
-
             User user = userService.createUser(username, password, role);
             return ResponseEntity.ok(user);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 
 
 

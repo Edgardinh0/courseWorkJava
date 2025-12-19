@@ -58,8 +58,13 @@ public class TourService {
         ).toList();
     }
 
-    public void deleteTour(Long id) {
-        bookingRepository.deleteAllByTourId(id);
-        tourRepository.deleteById(id);
+    public void deleteTour(Long tourId) {
+        if (bookingRepository.existsByTourId(tourId)) {
+            throw new IllegalStateException(
+                    "Нельзя удалить тур, на который уже есть бронирования"
+            );
+        }
+
+        tourRepository.deleteById(tourId);
     }
 }

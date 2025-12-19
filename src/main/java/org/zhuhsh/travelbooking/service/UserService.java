@@ -14,12 +14,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${security.agent.secret}")
-    private String agentSecret;
-
-    @Value("${security.admin.secret}")
-    private String adminSecret;
-
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;

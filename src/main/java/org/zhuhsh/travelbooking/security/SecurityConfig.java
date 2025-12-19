@@ -49,6 +49,7 @@ public class SecurityConfig {
 
 
                         .requestMatchers("/api/ai/**").permitAll()
+                        .requestMatchers("/api/auth/captcha").permitAll()
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(userDetailsService)

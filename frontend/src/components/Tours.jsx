@@ -94,14 +94,20 @@ export default function Tours({ role, currentUser }) {
     }
 
     async function handleDelete(tourId) {
-        if (!window.confirm("Удалить этот тур?")) return;
-        try {
-            await deleteTour(tourId);
-            await loadTours();
-        } catch (e) {
-            alert("Ошибка: " + e.message);
-        }
+    if (!window.confirm("Удалить этот тур?")) return;
+
+    try {
+        await deleteTour(tourId);
+        await loadTours();
+    } catch (e) {
+        const msg =
+            e.response?.data?.message ||
+            "Нельзя удалить тур, на который уже есть бронирование";
+
+        alert(msg);
     }
+}
+
 
     async function handleAddReview(tourId) {
         const userId = currentUser?.id || localStorage.getItem("userId");
@@ -235,17 +241,20 @@ export default function Tours({ role, currentUser }) {
                                         [t.id]: { ...newReview[t.id], comment: e.target.value }
                                     })}
                                 />
-                                <input
-                                    type="number"
-                                    min="1"
-                                    max="5"
-                                    placeholder="Рейтинг 1–5"
+                                <select 
                                     value={newReview[t.id]?.rating || ""}
                                     onChange={e => setNewReview({
                                         ...newReview,
-                                        [t.id]: { ...newReview[t.id], rating: e.target.value }
+                                        [t.id]: { ...newReview[t.id], rating: e.target.value}
                                     })}
-                                />
+                                >
+                                    <option value="" disabled>Выберите оценку</option>
+                                    <option value="1">⭐</option>
+                                    <option value="2">⭐⭐</option>
+                                    <option value="3">⭐⭐⭐</option>
+                                    <option value="4">⭐⭐⭐⭐</option>
+                                    <option value="5">⭐⭐⭐⭐⭐</option>
+                                </select>
                                 <button onClick={() => handleAddReview(t.id)}>Оставить отзыв</button>
                             </div>
                         )}
